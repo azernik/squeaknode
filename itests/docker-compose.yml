@@ -42,6 +42,24 @@ services:
       - "btcd:rpcserver"
     entrypoint: ["./start-btcctl.sh"]
 
+  electrs:
+    image: electrs
+    container_name: test_electrs
+    build:
+      context: ../
+      dockerfile: docker/electrs/Dockerfile
+    volumes:
+      - test_shared:/rpc
+    environment:
+      - RPCUSER
+      - RPCPASS
+      - NETWORK
+      - DEBUG
+      - MINING_ADDRESS
+    links:
+      - "btcd:rpcserver"
+    entrypoint: ["./start-electrs.sh"]
+
   lnd_client:
     image: lnd
     container_name: test_lnd_client
